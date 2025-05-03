@@ -17,6 +17,7 @@ UserEntity.init(
   {
     id: {
       type: DataType.STRING,
+      defaultValue: DataType.UUIDV4,
       allowNull: false,
       primaryKey: true,
     },

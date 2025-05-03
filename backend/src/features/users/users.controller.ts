@@ -1,20 +1,21 @@
+import UserCreateDto from "./user.create.dto";
+import UserUpdateDto from "./user.update.dto";
 import usersService, { UsersService } from "./users.service";
 import { Request, Response } from 'express';
 
 type UsersController = {
   getAll(req: Request, res: Response): void;
 
-  getOne(): void;
+  create(req: Request, res: Response): void;
 
-  create(): void;
-
-  update(): void;
+  update(req: Request, res: Response): void;
 
   deleteOne(req: Request, res: Response): void;
 }
 
 const makeUsersController = (usersService: UsersService): UsersController => {
   const getAll = (req: Request, res: Response): void => {
+    console.log(req.body);
     usersService.getAll().then((data) => {
       res.json({ status: 'ok', data: data });
       res.status(200);
@@ -24,16 +25,46 @@ const makeUsersController = (usersService: UsersService): UsersController => {
     });
   }
 
-  const getOne = (): void => {
-    console.log('getting one');
+  const create = (req: Request, res: Response): void => {
+    try {
+      const userDto: UserCreateDto = {
+        name: req.body.name,
+        email: req.body.email,
+        rol: req.body.role,
+      }
+
+      usersService.create(userDto).then((data) => {
+        res.json({ status: 'ok', data: data });
+        res.status(200);
+      }).catch((err) => {
+        res.json({ error: err });
+        res.status(404);
+      });
+    } catch (error) {
+      res.json({ status: 'error', error: error })
+      res.status(400);
+    }
   }
 
-  const create = (): void => {
-    console.log('creating');
-  }
+  const update = (req: Request, res: Response): void => {
+    try {
+      const userDto: UserUpdateDto = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role,
+      }
 
-  const update = (): void => {
-    console.log('updating');
+      usersService.update(req.params.id, userDto).then((data) => {
+        res.json({ status: 'ok', data: data });
+        res.status(200);
+      }).catch((err) => {
+        res.json({ error: err });
+        res.status(404);
+      });
+    } catch (error) {
+      res.json({ status: 'error', error: error })
+      res.status(400);
+    }
   }
 
   const deleteOne = (req: Request, res: Response): void => {
@@ -53,7 +84,6 @@ const makeUsersController = (usersService: UsersService): UsersController => {
 
  return {
     getAll,
-    getOne,
     create,
     update,
     deleteOne

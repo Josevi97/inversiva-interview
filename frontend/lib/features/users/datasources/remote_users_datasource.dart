@@ -42,7 +42,10 @@ class RemoteUsersDatasource extends RemoteDatasource
   }
 
   @override
-  Future<bool> deleteUser(String id) {
-    throw UnimplementedError();
+  Future<bool> deleteUser(String id) async {
+    final uri = Uri.parse("$apiHost/users/$id");
+    final result = await http.delete(uri);
+
+    return result.statusCode == 201;
   }
 }
