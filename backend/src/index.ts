@@ -1,19 +1,22 @@
 import express from 'express';
 import router from './router';
 import database from './database';
+import { SERVER_PORT } from './config';
+import { config } from 'dotenv';
 
 const app = express();
-const PORT = 3000;
 
 const bootstrap = async () => {
+  await config();
+
   await database.authenticate();
   await database.sync();
 
   app.use(express.json());
   app.use('/api', router);
 
-  app.listen(PORT, () => {
-    console.log('server running at port ', PORT);
+  app.listen(SERVER_PORT, () => {
+    console.log('server running at port ', SERVER_PORT);
   });
 }
 
