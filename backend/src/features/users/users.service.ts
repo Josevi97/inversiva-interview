@@ -1,14 +1,19 @@
+import UserEntity from './user.entity';
+import usersRepository, { UsersRepository } from './users.repository';
 export type UsersService = {
-  getAll(): void;
+  getAll(): Promise<UserEntity[]>;
   getOne(): void;
   create(): void;
   update(): void;
   deleteOne(): void;
 }
 
-const makeUsersService = (): UsersService => {
-  const getAll = (): void => {
-    console.log('getting all');
+const data = [];
+
+const makeUsersService = (usersRepository: UsersRepository): UsersService => {
+  const getAll = async (): Promise<UserEntity[]> => {
+    return [];
+    return usersRepository.getAll();
   }
 
   const getOne = (): void => {
@@ -36,4 +41,4 @@ const makeUsersService = (): UsersService => {
   }
 }
 
-export default makeUsersService();
+export default makeUsersService(usersRepository);

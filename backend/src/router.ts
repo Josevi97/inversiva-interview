@@ -8,6 +8,8 @@ router.get('/health', (req, res) => {
   res.status(200);
 } );
 
+import express, { Request, Response } from 'express';
+
 router.get('/users', userController.getAll);
 router.post('/users', userController.create);
 router.delete('/users', userController.deleteOne);

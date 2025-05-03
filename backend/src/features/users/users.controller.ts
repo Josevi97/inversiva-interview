@@ -1,7 +1,9 @@
+import UserEntity from "./user.entity";
 import usersService, { UsersService } from "./users.service";
+import { Request, Response } from 'express';
 
 type UsersController = {
-  getAll(req: any, res: any): void;
+  getAll(req: Request, res: Response): void;
 
   getOne(): void;
 
@@ -13,10 +15,15 @@ type UsersController = {
 }
 
 const makeUsersController = (usersService: UsersService): UsersController => {
-  const getAll = (req: any, res: any): void => {
-    usersService.getAll();
-    res.json({ status: 'ok' });
-    res.status(200);
+  const getAll = (req: Request, res: Response): void => {
+    usersService.getAll().then((data) => {
+      res.json({ status: 'ok', data: data });
+      res.status(200);
+    }).catch((err) => {
+      res.json({error: err });
+      res.status(400);
+    });
+
   }
 
   const getOne = (): void => {

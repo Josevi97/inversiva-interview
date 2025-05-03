@@ -1,29 +1,46 @@
-import { Model } from "sequelize";
-import { Column, DataType, Table } from "sequelize-typescript";
+import { Model, Optional } from "sequelize";
+import { DataType } from "sequelize-typescript";
+import sequalize from "../../database";
+import { User } from "./user";
 
-@Table({ tableName: 'users' })
-class UserEntity extends Model {
-  @Column({
-    type: DataType.STRING,
-    allowNull: false
-  })
-  name!: string;
+type UserAttributes = User & { id: string }
+type UserCreationAttributes = UserAttributes;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false
-  })
-  email!: string;
-
-  /**
-   * Roles are not specified in the requirements so I am gonna use a int
-   * to determine the role. By default, 0 is the default user and 1 is an admin
-   */
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false
-  })
-  rol!: number;
+class UserEntity extends Model<UserAttributes, Optional<UserCreationAttributes, 'id'>> {
+  declare id: string;
+  declare name: string;
+  declare email: string;
+  declare role: number;
 }
+
+UserEntity.init(
+  {
+    id: {
+      type: DataType.STRING,
+      allowNull: false,
+      primaryKey: true,
+    },
+    name: {
+      type: DataType.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    role: {
+      type: DataType.INTEGER,
+      allowNull: false
+    },
+  },
+  {
+    tableName: 'users',
+    sequelize: sequalize,
+  }
+)
+
+UserEntity.sync()
+  .then(() => 'User table recreated')
+  .catch(() => 'Error synchronizing database');
 
 export default UserEntity;
