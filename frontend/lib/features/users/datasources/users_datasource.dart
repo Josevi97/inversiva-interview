@@ -5,8 +5,6 @@ import 'package:frontend/features/users/user.dart';
 abstract class UsersDatasource {
   Future<List<User>> getUsers();
 
-  Future<User?> getUser(String id);
-
   Future<User?> createUser(CreateUserDto dto);
 
   Future<User?> updateUser(UpdateUserDto dto);

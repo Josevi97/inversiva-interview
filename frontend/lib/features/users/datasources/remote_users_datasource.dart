@@ -27,13 +27,23 @@ class RemoteUsersDatasource extends RemoteDatasource
   }
 
   @override
-  Future<User?> getUser(String id) {
-    throw UnimplementedError();
-  }
+  Future<User?> createUser(CreateUserDto dto) async {
+    final uri = Uri.parse("$apiHost/users");
+    final result = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(dto.toJson()),
+    );
 
-  @override
-  Future<User?> createUser(CreateUserDto dto) {
-    throw UnimplementedError();
+    if (result.statusCode == 200) {
+      final json = jsonDecode(result.body);
+      final data = json['data'] as Map<String, dynamic>?;
+      if (data == null) return null;
+
+      return User.fromJson(data);
+    }
+
+    return null;
   }
 
   @override

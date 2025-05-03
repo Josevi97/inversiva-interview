@@ -8,6 +8,6 @@ class CreateUserDto {
   CreateUserDto({required this.name, required this.email, required this.role});
 
   Map<String, dynamic> toJson() {
-    return {'name': name, 'email': email, 'role': role.value};
+    return {'name': name, 'email': email, 'role': role.toJson()};
   }
 }
