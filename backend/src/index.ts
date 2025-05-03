@@ -1,6 +1,5 @@
 import express from 'express';
 import router from './router';
-import sequalize from './database';
 import database from './database';
 
 const app = express();

@@ -14,6 +14,13 @@ enum UserRole {
 
     return options[name] ?? "-";
   }
+
+  static UserRole fromJson(int value) {
+    final role = value.clamp(0, UserRole.values.length - 1);
+    return values.firstWhere((r) => r.value == role);
+  }
+
+  int toJson() => value;
 }
 
 class User {
@@ -34,11 +41,11 @@ class User {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      role: json['role'],
+      role: UserRole.fromJson(json['role']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'email': email, 'role': role};
+    return {'id': id, 'name': name, 'email': email, 'role': role.toJson()};
   }
 }

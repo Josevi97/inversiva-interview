@@ -1,4 +1,4 @@
-import 'package:frontend/features/users/datasources/mocked_users_datasource.dart';
+import 'package:frontend/features/users/datasources/remote_users_datasource.dart';
 import 'package:frontend/features/users/datasources/users_datasource.dart';
 import 'package:frontend/features/users/dtos/create_user_dto.dart';
 import 'package:frontend/features/users/user.dart';
@@ -8,7 +8,7 @@ class UsersRepository {
   late final UsersDatasource _datasource;
 
   UsersRepository({UsersDatasource? datasource})
-    : _datasource = datasource ?? MockedUsersDatasource();
+    : _datasource = datasource ?? RemoteUsersDatasource();
 
   Future<List<User>> getUsers() async {
     return _datasource.getUsers();

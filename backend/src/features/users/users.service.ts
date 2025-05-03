@@ -12,7 +12,6 @@ const data = [];
 
 const makeUsersService = (usersRepository: UsersRepository): UsersService => {
   const getAll = async (): Promise<UserEntity[]> => {
-    return [];
     return usersRepository.getAll();
   }
 

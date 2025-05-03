@@ -1,4 +1,3 @@
-import UserEntity from "./user.entity";
 import usersService, { UsersService } from "./users.service";
 import { Request, Response } from 'express';
 
@@ -20,10 +19,9 @@ const makeUsersController = (usersService: UsersService): UsersController => {
       res.json({ status: 'ok', data: data });
       res.status(200);
     }).catch((err) => {
-      res.json({error: err });
+      res.json({ error: err });
       res.status(400);
     });
-
   }
 
   const getOne = (): void => {
