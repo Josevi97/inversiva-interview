@@ -66,7 +66,12 @@ class UserCard extends StatelessWidget {
                     _buildRow("Rol", _buildLabel(role)),
                     _buildRow(
                       "Acciones",
-                      Row(children: [_buildAction(Icons.delete, onDelete)]),
+                      Row(
+                        children: [
+                          _buildAction(Icons.delete, onDelete),
+                          _buildAction(Icons.edit, onUpdate),
+                        ],
+                      ),
                     ),
                   ],
                 ],

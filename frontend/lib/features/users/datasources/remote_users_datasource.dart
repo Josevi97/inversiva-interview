@@ -47,8 +47,23 @@ class RemoteUsersDatasource extends RemoteDatasource
   }
 
   @override
-  Future<User?> updateUser(UpdateUserDto dto) {
-    throw UnimplementedError();
+  Future<User?> updateUser(String id, UpdateUserDto dto) async {
+    final uri = Uri.parse("$apiHost/users/$id");
+    final result = await http.patch(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(dto.toJson()),
+    );
+
+    if (result.statusCode == 200) {
+      final json = jsonDecode(result.body);
+      final data = json['data'] as Map<String, dynamic>?;
+      if (data == null) return null;
+
+      return User.fromJson(data);
+    }
+
+    return null;
   }
 
   @override

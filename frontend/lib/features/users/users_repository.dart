@@ -1,6 +1,7 @@
 import 'package:frontend/features/users/datasources/remote_users_datasource.dart';
 import 'package:frontend/features/users/datasources/users_datasource.dart';
 import 'package:frontend/features/users/dtos/create_user_dto.dart';
+import 'package:frontend/features/users/dtos/update_user_dto.dart';
 import 'package:frontend/features/users/user.dart';
 
 // TODO: Use cached flutter query for reactive data
@@ -16,6 +17,10 @@ class UsersRepository {
 
   Future<User?> createUser(CreateUserDto userDto) async {
     return _datasource.createUser(userDto);
+  }
+
+  Future<User?> updateUser(String id, UpdateUserDto userDto) async {
+    return _datasource.updateUser(id, userDto);
   }
 
   Future<bool> deleteUser(String id) async {

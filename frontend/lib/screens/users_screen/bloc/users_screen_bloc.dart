@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/features/users/dtos/create_user_dto.dart';
+import 'package:frontend/features/users/dtos/update_user_dto.dart';
 import 'package:frontend/features/users/user.dart';
 import 'package:frontend/features/users/users_repository.dart';
 
@@ -33,6 +34,13 @@ class UsersScreenCreate extends UsersScreenEvent {
   UsersScreenCreate({required this.userDto});
 }
 
+class UsersScreenUpdate extends UsersScreenEvent {
+  final String id;
+  final UpdateUserDto userDto;
+
+  UsersScreenUpdate({required this.id, required this.userDto});
+}
+
 class UsersScreenDelete extends UsersScreenEvent {
   final String id;
 
@@ -47,6 +55,7 @@ class UsersScreenBloc extends Bloc<UsersScreenEvent, UsersScreenState> {
       super(UsersScreenState.uninitialized()) {
     on<UsersScreenFetch>(_mapFetchToState);
     on<UsersScreenCreate>(_mapCreateToState);
+    on<UsersScreenUpdate>(_mapUpdateToState);
     on<UsersScreenDelete>(_mapDeleteToState);
   }
 
@@ -63,6 +72,17 @@ class UsersScreenBloc extends Bloc<UsersScreenEvent, UsersScreenState> {
     Emitter<UsersScreenState> emit,
   ) async {
     final user = await _repository.createUser(event.userDto);
+    if (user != null) {
+      final users = await _repository.getUsers();
+      emit(state.copyWith(users: users, isLoaded: true));
+    }
+  }
+
+  Future<void> _mapUpdateToState(
+    UsersScreenUpdate event,
+    Emitter<UsersScreenState> emit,
+  ) async {
+    final user = await _repository.updateUser(event.id, event.userDto);
     if (user != null) {
       final users = await _repository.getUsers();
       emit(state.copyWith(users: users, isLoaded: true));

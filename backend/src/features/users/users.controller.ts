@@ -27,9 +27,6 @@ const makeUsersController = (usersService: UsersService): UsersController => {
 
   const create = (req: Request, res: Response): void => {
     try {
-      console.log(req.body);
-
-
       const userDto: UserCreateDto = {
         name: req.body.name,
         email: req.body.email,

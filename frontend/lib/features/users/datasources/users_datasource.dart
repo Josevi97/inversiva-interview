@@ -7,7 +7,7 @@ abstract class UsersDatasource {
 
   Future<User?> createUser(CreateUserDto dto);
 
-  Future<User?> updateUser(UpdateUserDto dto);
+  Future<User?> updateUser(String id, UpdateUserDto dto);
 
   Future<bool> deleteUser(String id);
 }

@@ -81,7 +81,7 @@ class MockedUsersDatasource extends RemoteDatasource
   }
 
   @override
-  Future<User?> updateUser(UpdateUserDto dto) {
+  Future<User?> updateUser(String id, UpdateUserDto dto) {
     return Future.value(null);
   }
 

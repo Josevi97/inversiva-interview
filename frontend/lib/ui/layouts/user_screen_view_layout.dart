@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 class UserScreenViewLayout extends StatelessWidget {
   final String title;
 
+  final String? initialName;
+
+  final String? initialEmail;
+
   final Function(String name) onNameChanged;
 
   final Function(String name) onEmailChanged;
@@ -12,6 +16,8 @@ class UserScreenViewLayout extends StatelessWidget {
   const UserScreenViewLayout({
     super.key,
     required this.title,
+    this.initialName,
+    this.initialEmail,
     required this.onNameChanged,
     required this.onEmailChanged,
     required this.onSave,
@@ -20,11 +26,17 @@ class UserScreenViewLayout extends StatelessWidget {
   Widget _buildBody() {
     final children = [
       TextFormField(
-        decoration: InputDecoration(label: Text("Nombre")),
+        decoration: InputDecoration(
+          label: Text("Nombre"),
+          hintText: initialName,
+        ),
         onChanged: onNameChanged,
       ),
       TextFormField(
-        decoration: InputDecoration(label: Text("Email")),
+        decoration: InputDecoration(
+          label: Text("Email"),
+          hintText: initialEmail,
+        ),
         onChanged: onEmailChanged,
       ),
     ];
