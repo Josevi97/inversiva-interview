@@ -10,7 +10,7 @@ type UsersController = {
 
   update(): void;
 
-  deleteOne(): void;
+  deleteOne(req: Request, res: Response): void;
 }
 
 const makeUsersController = (usersService: UsersService): UsersController => {
@@ -36,8 +36,19 @@ const makeUsersController = (usersService: UsersService): UsersController => {
     console.log('updating');
   }
 
-  const deleteOne = (): void => {
-    console.log('deleting');
+  const deleteOne = (req: Request, res: Response): void => {
+    usersService.deleteOne(req.params.id).then((result) => {
+      if (result) {
+        res.status(201);
+        res.json({ status: 'ok' });
+      } else {
+        res.status(401);
+        res.json({ status: 'error' });
+      }
+    }).catch((err) => {
+      res.json({ error: err });
+      res.status(404);
+    });
   }
 
  return {

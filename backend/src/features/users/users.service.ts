@@ -5,10 +5,8 @@ export type UsersService = {
   getOne(): void;
   create(): void;
   update(): void;
-  deleteOne(): void;
+  deleteOne(id: string): Promise<boolean>;
 }
-
-const data = [];
 
 const makeUsersService = (usersRepository: UsersRepository): UsersService => {
   const getAll = async (): Promise<UserEntity[]> => {
@@ -27,8 +25,8 @@ const makeUsersService = (usersRepository: UsersRepository): UsersService => {
     console.log('updating');
   }
 
-  const deleteOne = (): void => {
-    console.log('deleting');
+  const deleteOne = (id: string): Promise<boolean> => {
+    return usersRepository.deleteOne(id);
   }
 
   return {

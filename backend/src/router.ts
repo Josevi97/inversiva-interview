@@ -11,6 +11,6 @@ router.get('/health', (req, res) => {
 
 router.get('/users', userController.getAll);
 router.post('/users', userController.create);
-router.delete('/users', userController.deleteOne);
+router.delete('/users/:id', userController.deleteOne);
 
 export default router;
